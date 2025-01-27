@@ -1,0 +1,33 @@
+# Enable support for video files
+AddType video/mp4 .mp4
+AddType video/webm .webm
+AddType video/ogg .ogg
+
+# Allow cross-origin resource sharing (CORS) for video files
+<FilesMatch "\.(mp4|webm|ogg)$">
+    Header set Access-Control-Allow-Origin "*"
+</FilesMatch>
+
+# Ensure large files are served correctly
+<IfModule mod_headers.c>
+    Header set Accept-Ranges bytes
+</IfModule>
+
+# Enable browser caching for video files (optional)
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType video/mp4 "access plus 1 month"
+    ExpiresByType video/webm "access plus 1 month"
+    ExpiresByType video/ogg "access plus 1 month"
+</IfModule>
+
+# Set maximum file size for video requests (optional)
+LimitRequestBody 1048576000
+
+# Redirect HTTP to HTTPS (if applicable)
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Prevent directory listing
+Options -Indexes

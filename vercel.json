@@ -1,0 +1,8 @@
+{
+  "headers": [
+    {
+      "source": "/assets/videos/:all*",
+      "headers": [{ "key": "Access-Control-Allow-Origin", "value": "*" }]
+    }
+  ]
+}
